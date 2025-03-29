@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="icon.jpeg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebRTC testing</title>
+  </head>
+  <body>
+    <div class="videos">
+      <span>
+        <h3>Live video Stream</h3>
+        <video id="remoteVideo" autoplay playsinline></video>
+      </span>
+
+
+    </div>
+
+    
+    <h2>1. Create a offer</h2>
+    <button id="callButton">Create Call (offer)</button>
+    
+    <p>Put offer id by the sender</p>
+    <input id="callInput" />
+
+    <h2>3. Hangup</h2>
+    <button id="hangupButton">Hangup</button>
+    
+    <h2>4. Change video</h2>
+    <button id="change_video">other video</button>
+
+    <script type="module" src="/camera_reciever.js"></script>
+
+  </body>
+</html>
