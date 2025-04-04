@@ -59,6 +59,7 @@ pc.onicecandidate = (event) => {
   }
 };
 
+//setup a data channel
 function setupDataChannel() {
   dataChannel = pc.createDataChannel('messages');
 
@@ -72,6 +73,17 @@ function setupDataChannel() {
     }
 }
 
+//setup to send data in a channel
+function sendDataFunction(message){
+    if(dataChannel && dataChannel.readyState == "open"){
+        dataChannel.send(message);
+    }
+    else{
+        console.log("datachannel is not open, can not send " +  message)
+    }
+}
+
+
 // Create offer
 async function createOffer() {
   setupDataChannel();
@@ -79,7 +91,7 @@ async function createOffer() {
   callInput.value = callDoc.id;
   
   
-  // change the deafauld that will send a video 
+  // change default offer, that only receive video (and not send)
   const offerOptions = {
     offerToReceiveVideo: true,
     offerToReceiveAudio: false,
@@ -108,15 +120,12 @@ async function createOffer() {
 callButton.onclick = createOffer;
 
 function hangupCall() {
-  const dataChannel = pc.createDataChannel('messages');
-  dataChannel.onopen = () => {
-    console.log("send lost thing");
-    dataChannel.send('connection lost');
-    pc.close();
-    pc = null;
-  };
-  // Close the peer connection
-  //
+  console.log("send lost thing");
+  sendDataFunction("connection lost");
+  
+  //close the peer to peer connection
+  pc.close();
+  pc = null;
 
   // Clear call input
   callInput.value = '';
@@ -126,27 +135,14 @@ function hangupCall() {
     remoteVideo.srcObject.getTracks().forEach((track) => track.stop());
     remoteVideo.srcObject = null;
   }
-
-  // Disable buttons
-  /*callButton.disabled = true;
-  answerButton.disabled = true;
-  hangupButton.disabled = true;
-  startButton.disabled = false;*/
   
   console.log('Call ended, video stopped, and input cleared');
 }
 hangupButton.onclick = hangupCall;
 
 function changeInputVideo(){
-    console.log("testen van knop");
-    // Maak een datachannel om berichten te versturen
-    const dataChannel = pc.createDataChannel('messages');
+    console.log("change video");
+    sendDataFunction("change video");
+}
 
-    dataChannel.onopen = () => {
-      dataChannel.send('change video');
-    };
-
-    dataChannel.onclose = () => console.log('Datachannel is gesloten');
-};
 changeInput.onclick = changeInputVideo;
-
