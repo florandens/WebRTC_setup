@@ -1,13 +1,31 @@
+# Have Dependenties
+
 If you want to make this project work, you have to work with two peers where at 1 peer you run the transmitter and at the other you run the receive. in each folder you have to call 
 ```
 npm install
 ```
 this is going to make sure proper dependencies are downloaded. 
 
-Then to run the application you need 
+# Signalisatie server
+
+add in the `camera_reciever.js` and `camera_transmitter` your firebase config part. how to do this follow this steps:
+- go to https://firebase.google.com/
+- click on consol and log in with your google account
+- create a new project (use deafult options)
+- go to the build and select realtime database
+- set rules:
 ```
-npm run dev
+{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}
 ```
+- create a now a app (give it a name)
+- after you create it you have credentials, what you need to add in the code
+
+# create CoTurn server
 
 For to get working in a virtuele environment you can use a CoTurn, in the folder CoTurn can you find to config file that i used. For installation of coturn follow next steps (for linux)
 
@@ -26,4 +44,11 @@ mv /etc/turnserver.conf /etc/turnserver.conf.backup
 
 put the config file that you can find in the CoTurn folder on `/etc/`, you need to change external-ip to yours. 
 (you can change other settings for more information: https://gabrieltanner.org/blog/turn-server/ or https://github.com/coturn/coturn)
+
+
+# Run code
+Then to run the application you need 
+```
+npm run dev
+```
 
