@@ -39,10 +39,13 @@ for to configuration first need to remove or save the origin file with a other n
 mv /etc/turnserver.conf /etc/turnserver.conf.backup
 ```
 
-put the config file that you can find in the CoTurn folder on `/etc/`, you need to put your external-ip (public) and internal-ip address (privete if insite your nat network). 
+put the config file that you can find in the CoTurn folder on `/etc/` change follow things
+- Put your external-ip (public) and internal-ip address (private if insite your NAT network).
+- change username and password
+
 (you can change other settings for more information: https://gabrieltanner.org/blog/turn-server/ or https://github.com/coturn/coturn)
 
-Last setup update in the `camera_reciever.js` and `camera_transmitter`, change yourIP adres to the ip address of the TURN server.
+Last setup update in the `camera_reciever.js` and `camera_transmitter`, change yourIP adres to the ip address of the TURN server and put your username and password in.
 
 
 # Run code
