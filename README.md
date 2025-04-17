@@ -45,7 +45,9 @@ put the config file that you can find in the CoTurn folder on `/etc/` change fol
 
 (you can change other settings for more information: https://gabrieltanner.org/blog/turn-server/ or https://github.com/coturn/coturn)
 
-Last setup update in the `camera_reciever.js` and `camera_transmitter`, change yourIP adres to the ip address of the TURN server and put your username and password in.
+Last setup update in the `camera_reciever.js` and `camera_transmitter`, change follow things in the `const servers`
+- Change IP-Corturn-server adres to the ip address of the TURN server.
+- Set username and password from your TURN server.
 
 
 # Run code
