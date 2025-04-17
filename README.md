@@ -20,6 +20,8 @@ add in the `camera_reciever.js` and `camera_transmitter` your firebase config pa
 - create a now a app (give it a name)
 - after you create it you have credentials, what you need to add in the code
 
+For more information: https://websitebeaver.com/insanely-simple-webrtc-video-chat-using-firebase-with-codepen-demo
+
 # Create TURN server
 
 For to get working in a virtuele environment you can use a CoTurn, in the folder CoTurn can you find to config file that i used. For installation of coturn follow next steps (for linux)
