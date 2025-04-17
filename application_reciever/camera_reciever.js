@@ -14,9 +14,9 @@ const firestore = firebase.firestore();
 const servers = {
   iceServers: [
     {
-      //urls: 'turn:{IP-Corturn-server}',
-      //username: '{username of CoTurn}',
-      //credential: '{password of CoTurn}',
+      urls: 'turn:{IP-Corturn-server}',
+      username: '{username of CoTurn}',
+      credential: '{password of CoTurn}',
     },
   ],
   iceTransportPolicy: 'relay', //expleciet to use turn server
