@@ -3,13 +3,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBTCpP-4W9wx5-yCsl05oSStYUnAYUJLZA",
-  authDomain: "webrtc-coturn-df83a.firebaseapp.com",
-  projectId: "webrtc-coturn-df83a",
-  storageBucket: "webrtc-coturn-df83a.appspot.com",
-  messagingSenderId: "355458356837",
-  appId: "1:355458356837:web:8b90a44c35a9b97535988c",
-  measurementId: "G-P8T391DPJR"
+  //firebaseconfig (information of your realtime database, more information readme)
 };
 
 if (!firebase.apps.length) {
@@ -20,12 +14,12 @@ const firestore = firebase.firestore();
 const servers = {
   iceServers: [
     {
-      urls: 'turn:192.168.1.80:3478',
-      username: 'test',
-      credential: 'test123',
+      //urls: 'turn:{IP-Corturn-server}',
+      //username: '{username of CoTurn}',
+      //credential: '{password of CoTurn}',
     },
   ],
-  iceTransportPolicy: 'relay',
+  iceTransportPolicy: 'relay', //expleciet to use turn server
 };
 
 let pc = new RTCPeerConnection(servers);
