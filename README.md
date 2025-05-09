@@ -1,15 +1,55 @@
 # Overview
-this application consists of 4 parts: signaling server, STUN/TURN server, transmitter and receiver. signaling server uses firebase, for TURN we use a CoTURN and for the peers it is the webRTC application. For the peers, one computer must have a transmitter and the other the receiver. In the code of transmitter need to fill in the firebase config and IP address from the TURN server.
+This application consists of 4 parts:
+#### <ins> *Server Side* </ins>
+- A signalisation server | Using Firebase
+- A STUN/TURN server | Using CoTURN
+#### <ins> *Client Side (WebRTC Application)* </ins>
+- A transmitter
+- A receiver
 
-# Signalisatie server
+# Configuration
+## Client
+Each peer (connection) most consist of 2 computers/users.  
+One must act as the transmitter while the other acts as the receiver.  
+The transmitter will need to configure its Firebase-configuration and the server-IP based on the configuration of the TURN server.
 
-add in the `camera_reciever.js` and `camera_transmitter` your firebase config part. how to do this follow this steps:
-- go to https://firebase.google.com/
-- click on consol and log in with your google account
-- create a new project (use deafult options)
-- go to the build and select realtime database
-- set rules:
+## Server
+### TURN Server
+This project will be run in a virtual environment. The environment we'll be using is CoTURN.  
+Inside the folder *CoTurn Server* you'll find an example of the configuration I used
+
+To install a CoTurn Server on your (linux) device use the following commands:
+```sh
+sudo apt update -y
+sudo apt install coturn
+sudo nano /etc/default/coturn
 ```
+- In this file uncomment the `TURNSERVER_ENABLED=1` line, save and exit
+- For the server configuration, first copy/move the standard config file with:
+```sh
+mv /etc/turnserver.conf /etc/turnserver.conf.backup
+```
+- Put my config-file in its place and edit the following lines:  
+Replace the IP, Username & Password
+```ini
+external-ip={public_IP_address/private_IP}
+```
+```ini
+user={Username}:{Password}
+```
+
+You can also change other settings if you want.
+For more information about these settings: [Gabriel Tanner](https://gabrieltanner.org/blog/turn-server/) or [CoTURN Github](https://github.com/coturn/coturn)
+
+### Signalisation Server
+Inside each folder (transmitter and receiver) you'll find a `camera_*.js` file. Inside these files you'll need to add your own Firebase Configuration.  
+To do so, follow these steps:
+- Go to your [Firebase Console](https://console.firebase.google.com/)
+- Create a new project (you can leave the default options)
+- In the menu on the left go to *Build* and select *Realtime Database*
+- Create a new database and select its location
+- Next you'll need to set some basic rules:
+```json
 {
   "rules": {
     ".read": true,
@@ -17,49 +57,50 @@ add in the `camera_reciever.js` and `camera_transmitter` your firebase config pa
   }
 }
 ```
-- create a now a app (give it a name)
-- after you create it you have credentials, what you need to add in the code
+These are normally set by default, but if not please add them.
 
-For more information: https://websitebeaver.com/insanely-simple-webrtc-video-chat-using-firebase-with-codepen-demo
-
-# Create TURN server
-
-For to get working in a virtuele environment you can use a CoTurn, in the folder CoTurn can you find to config file that i used. For installation of coturn follow next steps (for linux)
-
+- Once the database is created go back to the homepage of your Firebase project
+- Click on *Add firabase to your web app* or on the `</>` icon
+- Name your app
+- After creating you'll receive a code-box containing some code with your credentials. Something like this:
+```js
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "<SOME_API_KEY>",
+  authDomain: "<YOUR_PROJECTNAME>.firebaseapp.com",
+  databaseURL: "<SOME_DATABASE_URL>",
+  projectId: "<YOUR_PROJECTNAME>",
+  storageBucket: "<YOUR_PROJECTNAME>.firebasestorage.app",
+  messagingSenderId: "<SOME_MESSAGE_ID>",
+  appId: "<SOME_APP_ID>"
+};
 ```
-sudo apt-get update -y
-sudo apt-get install coturn
-sudo nano /etc/default/coturn
+- In the previously mentioned `camera_*.js` files replace the following piece of code with your own credentials
+```js
+const firebaseConfig = {
+  //firebaseconfig (information of your realtime database, more information readme)
+};
+```
+- Also edit the following lines with the configured details in [TURN Server](#turn-server). (Replace the IP, Username & Password)
+```js
+const servers = {
+  iceServers: [
+    {
+      urls: 'turn:{CoTURN_IP}',
+      username: '{CoTURN_Username}',
+      credential: '{CoTURN_Password}',
+    },
+  ],
+  iceTransportPolicy: 'relay', //expleciet to use turn server
+};
 ```
 
-in the file write: `TURNSERVER_ENABLED=1`
-for to configuration first need to remove or save the origin file with a other name for to do that
+More information: [Website Beaver](https://websitebeaver.com/insanely-simple-webrtc-video-chat-using-firebase-with-codepen-demo)
 
-```
-mv /etc/turnserver.conf /etc/turnserver.conf.backup
-```
-
-put the config file that you can find in the CoTurn folder on `/etc/` change follow things
-- Put your external-ip (public) and internal-ip address (private if insite your NAT network).
-- change username and password
-
-(you can change other settings for more information: https://gabrieltanner.org/blog/turn-server/ or https://github.com/coturn/coturn)
-
-Last setup update in the `camera_reciever.js` and `camera_transmitter`, change follow things in the `const servers`
-- Change IP-Corturn-server adres to the ip address of the TURN server.
-- Set username and password from your TURN server.
-
-
-# Run code
-
-If you want to make this project work, you have to work with two peers where at 1 peer you run the transmitter and at the other you run the receive. in each folder you have to call 
+# Run Clients
+In order to launch both transmitter and receiver, run the following commands in their respective folders.
+These will download the proper dependencies and launch the programs.
 ```
 npm install
-```
-this is going to make sure proper dependencies are downloaded. 
-
-Then to run the application you need 
-```
 npm run dev
 ```
-
