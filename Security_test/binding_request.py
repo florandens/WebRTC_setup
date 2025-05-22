@@ -1,4 +1,4 @@
-
+# OpenAI (2025). ChatGPT [large language model]. https://chatopenai.com (error fixing)
 import socket
 import time
 from stun_protocol.message import Message, MessageClass, MessageMethod
