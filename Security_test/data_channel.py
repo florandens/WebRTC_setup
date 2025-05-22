@@ -1,3 +1,4 @@
+# OpenAI (2025). ChatGPT [large language model]. https://chatopenai.com (error fixing)
 from scapy.all import IP, UDP, Raw, sendp, arping, Ether, get_if_list
 import random
 import struct
