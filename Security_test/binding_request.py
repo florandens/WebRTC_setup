@@ -6,7 +6,7 @@ from stun_protocol.message import Message, MessageClass, MessageMethod
 # Create a STUN Binding Request message
 message = Message(MessageClass.REQUEST, MessageMethod.BINDING)
 
-# Pack the message into a buffer
+
 buffer = message.pack()
 
 # Send the message over a UDP socket
