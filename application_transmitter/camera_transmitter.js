@@ -1,3 +1,4 @@
+// OpenAI (2025). ChatGPT [large language model]. https://chatopenai.com (error fixing)
 import './style.css';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
